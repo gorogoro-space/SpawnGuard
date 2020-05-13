@@ -1,0 +1,6 @@
+name: SpawnGuard
+version: 1.0
+api-version: 1.15
+description: スポーン地点保護用プラグイン
+author: kubotan
+main: space.gorogoro.spawnguard.SpawnGuard
