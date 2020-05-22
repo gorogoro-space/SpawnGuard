@@ -8,7 +8,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,10 +43,22 @@ public class SpawnGuard extends JavaPlugin implements Listener {
 
   @EventHandler
   public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+    e.setCancelled(baseProc(e.getEntity()));
+  }
 
-    Entity target = e.getEntity();
+  @EventHandler
+  public void onEntityDamageByBlockEvent(EntityDamageByBlockEvent e) {
+    e.setCancelled(baseProc(e.getEntity()));
+  }
+
+  @EventHandler
+  public void onEntityDamageEvent(EntityDamageEvent e) {
+    e.setCancelled(baseProc(e.getEntity()));
+  }
+
+  public boolean baseProc(Entity target) {
     if(!target.getType().equals(EntityType.PLAYER)) {
-      return;
+      return false;
     }
     Player p = (Player)target;
 
@@ -57,13 +71,13 @@ public class SpawnGuard extends JavaPlugin implements Listener {
     Location playerPoint = p.getLocation();
 
     if(!spawnPoint.getWorld().equals(playerPoint.getWorld())) {
-      return;
+      return false;
     }
     if(spawnPoint.distance(playerPoint) > 20.0d) {
-      return;
+      return false;
     }
 
-    e.setCancelled(true);
+    return true;
   }
 
   @Override
