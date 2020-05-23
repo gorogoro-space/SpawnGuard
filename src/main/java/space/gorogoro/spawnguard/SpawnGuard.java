@@ -43,17 +43,23 @@ public class SpawnGuard extends JavaPlugin implements Listener {
 
   @EventHandler
   public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-    e.setCancelled(baseProc(e.getEntity()));
+    if(baseProc(e.getEntity())) {
+      e.setCancelled(true);
+    }
   }
 
   @EventHandler
   public void onEntityDamageByBlockEvent(EntityDamageByBlockEvent e) {
-    e.setCancelled(baseProc(e.getEntity()));
+    if(baseProc(e.getEntity())) {
+      e.setCancelled(true);
+    }
   }
 
   @EventHandler
   public void onEntityDamageEvent(EntityDamageEvent e) {
-    e.setCancelled(baseProc(e.getEntity()));
+    if(baseProc(e.getEntity())) {
+      e.setCancelled(true);
+    }
   }
 
   public boolean baseProc(Entity target) {
